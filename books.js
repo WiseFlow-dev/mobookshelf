@@ -19,6 +19,28 @@ window.SITE = {
   social: []
 };
 
+// Amazon stores. The site picks one from the visitor's country (US if unknown).
+// To use Amazon OneLink / affiliate tags later, set amazonTag, e.g. "mobookshelf-20".
+window.AMAZON = {
+  tag: "mobookshelf-20",
+  stores: {
+    US: { label: "United States", host: "www.amazon.com" },
+    GB: { label: "United Kingdom", host: "www.amazon.co.uk" },
+    CA: { label: "Canada", host: "www.amazon.ca" },
+    AU: { label: "Australia", host: "www.amazon.com.au" },
+    DE: { label: "Germany", host: "www.amazon.de" },
+    FR: { label: "France", host: "www.amazon.fr" },
+    ES: { label: "Spain", host: "www.amazon.es" },
+    IT: { label: "Italy", host: "www.amazon.it" },
+    NL: { label: "Netherlands", host: "www.amazon.nl" },
+    PL: { label: "Poland", host: "www.amazon.pl" },
+    SE: { label: "Sweden", host: "www.amazon.se" },
+    JP: { label: "Japan", host: "www.amazon.co.jp" }
+  },
+  // Countries that share another country's store.
+  alias: { IE: "GB", AT: "DE", CH: "DE", BE: "NL", LU: "FR", NZ: "AU" }
+};
+
 window.BOOKS = [
   {
     id: "midnight",
@@ -26,12 +48,8 @@ window.BOOKS = [
     kind: "Murder-mystery puzzle book · adults & teens",
     status: "available", // "available" or "coming-soon"
     price: "$13.99",
+    asin: "B0HQDMH9ZX",
     amazonUrl: "https://www.amazon.com/dp/B0HQDMH9ZX",
-    otherStores: [
-      { label: "UK", url: "https://www.amazon.co.uk/dp/B0HQDMH9ZX" },
-      { label: "Canada", url: "https://www.amazon.ca/dp/B0HQDMH9ZX" },
-      { label: "Australia", url: "https://www.amazon.com.au/dp/B0HQDMH9ZX" }
-    ],
     cover: "assets/books/midnight/cover.jpg",
     shelfNote: "A murder to solve. Bring a pencil.",
     blurb:
@@ -51,6 +69,7 @@ window.BOOKS = [
     kind: "Illustrated chapter book · ages 8–12 · Rowan & Kit Adventures, Book 1",
     status: "available",
     price: "",
+    asin: "B0HQPVPYV3",
     amazonUrl: "https://www.amazon.com/dp/B0HQPVPYV3",
     cover: "assets/books/echoing-village/cover-en.jpg",
     shelfNote: "Rowan & Kit Adventures, Book 1. Available now.",
@@ -79,6 +98,7 @@ window.BOOKS = [
     kind: "Illustrated chapter book · ages 8–12 · Rowan & Kit Adventures, Book 2",
     status: "available",
     price: "",
+    asin: "B0HQWZPHH5",
     amazonUrl: "https://www.amazon.com/dp/B0HQWZPHH5",
     cover: "assets/books/whispering-orchard/cover.jpg",
     shelfNote: "Rowan & Kit Adventures, Book 2. Available now.",

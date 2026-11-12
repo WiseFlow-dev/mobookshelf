@@ -24,6 +24,50 @@
     return book.status === "available" && book.amazonUrl;
   }
 
+  /* ---------- Pick the visitor's Amazon store ---------- */
+  var AMZ = window.AMAZON || { stores: {}, alias: {} };
+  var TZ_COUNTRY = {
+    "Europe/London": "GB", "Europe/Dublin": "IE", "Europe/Berlin": "DE", "Europe/Vienna": "AT",
+    "Europe/Zurich": "CH", "Europe/Paris": "FR", "Europe/Madrid": "ES", "Europe/Rome": "IT",
+    "Europe/Amsterdam": "NL", "Europe/Brussels": "BE", "Europe/Warsaw": "PL", "Europe/Stockholm": "SE",
+    "Asia/Tokyo": "JP", "Australia/Sydney": "AU", "Australia/Melbourne": "AU", "Australia/Brisbane": "AU",
+    "Australia/Perth": "AU", "Australia/Adelaide": "AU", "Pacific/Auckland": "NZ",
+    "America/Toronto": "CA", "America/Vancouver": "CA", "America/Edmonton": "CA",
+    "America/Winnipeg": "CA", "America/Halifax": "CA"
+  };
+  var LANG_COUNTRY = { de: "DE", fr: "FR", es: "ES", it: "IT", nl: "NL", pl: "PL", sv: "SE", ja: "JP" };
+
+  function detectCountry() {
+    var langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ""];
+    var i, m;
+    for (i = 0; i < langs.length; i++) {
+      m = /[-_]([A-Za-z]{2})$/.exec(langs[i] || "");
+      if (m) return m[1].toUpperCase();
+    }
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (TZ_COUNTRY[tz]) return TZ_COUNTRY[tz];
+    } catch (e) {}
+    var base = ((langs[0] || "").split(/[-_]/)[0] || "").toLowerCase();
+    return LANG_COUNTRY[base] || "US";
+  }
+
+  var COUNTRY = (function () {
+    var c = detectCountry();
+    c = AMZ.alias[c] || c;
+    return AMZ.stores[c] ? c : "US";
+  })();
+
+  function storeUrl(book, code) {
+    var store = AMZ.stores[code];
+    if (!book.asin || !store) return book.amazonUrl;
+    return "https://" + store.host + "/dp/" + book.asin + (AMZ.tag && code === "US" ? "?tag=" + encodeURIComponent(AMZ.tag) : "");
+  }
+
+  function bookUrl(book) {
+    return storeUrl(book, COUNTRY);
+  }
+
   /* ---------- The shelf at the top ---------- */
   function buildShelf() {
     var shelf = document.getElementById("shelf");
@@ -78,7 +122,7 @@
     });
     var cover = isAvailable(book)
       ? el("a", {
-          href: book.amazonUrl,
+          href: bookUrl(book),
           target: "_blank",
           rel: "noopener",
           "aria-label": "Buy " + book.title + " on Amazon"
@@ -103,7 +147,7 @@
       actions.appendChild(
         el("a", {
           class: "button",
-          href: book.amazonUrl,
+          href: bookUrl(book),
           target: "_blank",
           rel: "noopener",
           text: "Buy on Amazon" + (book.price ? " · " + book.price : "")
@@ -127,11 +171,14 @@
     }
     text.appendChild(actions);
 
-    if (isAvailable(book) && book.otherStores && book.otherStores.length) {
-      var stores = el("p", { class: "book-stores" }, ["Also on Amazon "]);
-      book.otherStores.forEach(function (store, i) {
-        if (i) stores.appendChild(document.createTextNode(" · "));
-        stores.appendChild(el("a", { href: store.url, target: "_blank", rel: "noopener", text: store.label }));
+    if (isAvailable(book) && book.asin) {
+      var stores = el("p", { class: "book-stores" }, ["Other Amazon stores: "]);
+      var first = true;
+      Object.keys(AMZ.stores).forEach(function (code) {
+        if (code === COUNTRY) return;
+        if (!first) stores.appendChild(document.createTextNode(" · "));
+        first = false;
+        stores.appendChild(el("a", { href: storeUrl(book, code), target: "_blank", rel: "noopener", text: AMZ.stores[code].label }));
       });
       text.appendChild(stores);
     }
