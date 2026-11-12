@@ -114,6 +114,21 @@ window.BOOKS = [
       { src: "assets/books/whispering-orchard/scene-07-valley.jpg", caption: "Chapter 2. Looking down into the walled orchard." },
       { src: "assets/books/whispering-orchard/scene-13-gate.jpg", caption: "Chapter 3. Rowan steps through the orchard gate." }
     ]
+  },
+  {
+    id: "borrowed-badge",
+    title: "The Borrowed Badge",
+    kind: "Crime thriller · adults · On the Inside, Book 1",
+    status: "coming-soon",
+    price: "",
+    cover: "assets/books/borrowed-badge/cover.jpg",
+    shelfNote: "On the Inside, Book 1. Coming soon.",
+    blurb:
+      "His badge is gone. His orders still stand. To the Metropolitan Police, Daniel Hollis is a disgrace. To East London crime boss Frank Mercer, he is a useful recruit with nothing left to lose. Neither impression tells the whole story. As evidence turns into leverage and trust becomes a weapon, Daniel must decide how far he can push his cover before someone else pays the price.",
+    facts: "Paperback · 6 × 9 in",
+    lookInside: [
+      { src: "assets/books/borrowed-badge/cover.jpg", caption: "The front cover of The Borrowed Badge, Book 1 of On the Inside." }
+    ]
   }
 ];
 
