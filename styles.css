@@ -18,7 +18,7 @@
   --hand: "Kalam", "Segoe Print", "Bradley Hand", cursive;
 
   --page: min(1080px, 100% - 32px);
-  --cover-h: clamp(170px, 26vw, 320px);
+  --cover-h: clamp(220px, 24vw, 320px);
 }
 
 *,
@@ -92,12 +92,30 @@ p { margin: 0; }
   font-size: clamp(1.05rem, 1.6vw, 1.2rem);
 }
 
+/* The shelf scrolls sideways (swipe on a phone) when the books don't fit. */
 .shelf {
   position: relative;
-  width: fit-content;
-  max-width: 100%;
-  margin: clamp(44px, 6vw, 64px) auto 0;
+  /* wider than the text column so all the books fit on a big screen */
+  width: calc(100vw - 20px);
+  max-width: 1400px;
+  margin: clamp(44px, 6vw, 64px) 0 0 50%;
+  transform: translateX(-50%);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-top: 12px;
+  padding-bottom: 8px;
+}
+.shelf::-webkit-scrollbar { display: none; }
+.shelf-track {
+  position: relative;
+  width: max-content;
+  min-width: 100%;
+  margin: 0 auto;
   padding: 0 clamp(16px, 4vw, 48px);
+  box-sizing: border-box;
 }
 .shelf-row {
   position: relative;
@@ -108,6 +126,8 @@ p { margin: 0; }
   gap: clamp(18px, 4vw, 44px);
 }
 .shelf-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,6 +157,8 @@ a.shelf-item:hover { color: var(--ink); }
   right: 0;
   top: var(--cover-h);
   height: 16px;
+  left: 0;
+  right: 0;
   border-radius: 2px;
   background:
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 3px, transparent 3px 11px),
@@ -408,12 +430,11 @@ a.shelf-item:hover { color: var(--ink); }
 @media (max-width: 480px) {
   .top nav { gap: 18px; }
   .shelf-space { display: none; }
-  /* three covers side by side must fit the phone width */
-  .hello { --cover-h: calc((100vw - 32px - 24px) / 2.15); }
-  .shelf { padding: 0; }
-  .shelf-row { gap: 12px; }
-  .plank { left: -8px; right: -8px; }
-  .shelf-note { margin-top: 28px; font-size: 0.82rem; max-width: 8em; padding: 7px 8px 5px; }
+  /* big covers, about two on screen with the next one peeking in: swipe sideways */
+  .hello { --cover-h: min(290px, 56vw * 1.5); }
+  .shelf-row { gap: 18px; justify-content: flex-start; }
+  .shelf-track { padding: 0 20px; }
+  .shelf-note { margin-top: 28px; font-size: 0.9rem; max-width: 9em; padding: 7px 8px 5px; }
   .viewer figcaption { flex-direction: column; gap: 4px; }
 }
 

@@ -99,8 +99,9 @@
       ])
     );
 
-    shelf.appendChild(row);
-    shelf.appendChild(el("div", { class: "plank", "aria-hidden": "true" }));
+    shelf.appendChild(
+      el("div", { class: "shelf-track" }, [row, el("div", { class: "plank", "aria-hidden": "true" })])
+    );
   }
 
   /* ---------- One section per book ---------- */
