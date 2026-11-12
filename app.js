@@ -187,7 +187,7 @@
       text.appendChild(
         el("p", {
           class: "book-next",
-          text: "Still to come for Rowan & Kit: " + book.nextInSeries.join(", ") + "."
+          text: "Still to come in " + (book.seriesName || "the series") + ": " + book.nextInSeries.join(", ") + "."
         })
       );
     }
