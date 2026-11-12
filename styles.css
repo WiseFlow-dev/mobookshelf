@@ -1,0 +1,424 @@
+/* MoBookShelf — a small, quiet bookshop front.
+   Colours: sand paper, mocha wood, moss green. Type: Literata (a typeface made for
+   reading books) and Kalam (handwriting, used only on the little shelf notes). */
+
+:root {
+  --paper: #eee5d6;
+  --paper-deep: #e5d9c5;
+  --card: #fbf7ef;
+  --ink: #2f2721;
+  --muted: #655849;
+  --line: #d6c8b2;
+  --wood: #6a4b35;
+  --wood-dark: #4f3726;
+  --moss: #56603f;
+  --moss-dark: #454d32;
+
+  --serif: "Literata", Georgia, "Times New Roman", serif;
+  --hand: "Kalam", "Segoe Print", "Bradley Hand", cursive;
+
+  --page: min(1080px, 100% - 32px);
+  --cover-h: clamp(170px, 26vw, 320px);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover { color: var(--moss); }
+
+:focus-visible { outline: 2px solid var(--moss); outline-offset: 3px; border-radius: 2px; }
+
+h1, h2 { font-weight: 500; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+p { margin: 0; }
+
+.skip {
+  position: absolute; left: 16px; top: -60px;
+  background: var(--ink); color: var(--paper); padding: 8px 14px; z-index: 10;
+}
+.skip:focus { top: 12px; }
+
+/* ---------- Header ---------- */
+.top {
+  width: var(--page);
+  margin: 0 auto;
+  padding: 28px 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+.wordmark {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+.top nav { display: flex; gap: 28px; }
+.top nav a { text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--ink); }
+
+/* ---------- Hello + the shelf ---------- */
+.hello {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 64px) 0 clamp(72px, 10vw, 128px);
+  text-align: center;
+}
+.hello h1 {
+  font-size: clamp(2.3rem, 5.4vw, 4rem);
+  line-height: 1.08;
+}
+.lead {
+  max-width: 34em;
+  margin: 22px auto 0;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+}
+
+.shelf {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(44px, 6vw, 64px) auto 0;
+  padding: 0 clamp(16px, 4vw, 48px);
+}
+.shelf-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(18px, 4vw, 44px);
+}
+.shelf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  animation: settle 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 2) * 120ms + 150ms);
+}
+.shelf-cover {
+  height: var(--cover-h);
+  width: auto;
+  border-radius: 2px 3px 3px 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
+    -1px 0 0 rgba(0, 0, 0, 0.12),
+    8px 2px 18px -10px rgba(47, 39, 33, 0.55);
+  transition: transform 0.35s ease;
+  transform-origin: bottom center;
+}
+a.shelf-item:hover .shelf-cover { transform: translateY(-6px); }
+a.shelf-item:hover { color: var(--ink); }
+
+/* the wooden plank sits right under the covers */
+.plank {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--cover-h);
+  height: 16px;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 3px, transparent 3px 11px),
+    linear-gradient(180deg, #81624a 0, var(--wood) 30%, var(--wood-dark) 100%);
+  box-shadow: 0 14px 22px -12px rgba(60, 40, 25, 0.55);
+}
+
+/* the handwritten shelf notes, like in a real bookshop */
+.shelf-note {
+  margin-top: 34px;
+  max-width: 11.5em;
+  padding: 10px 14px 8px;
+  background: var(--card);
+  font-family: var(--hand);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: #3a3029;
+  box-shadow: 0 1px 2px rgba(47, 39, 33, 0.12), 0 6px 14px -8px rgba(47, 39, 33, 0.3);
+  transform: rotate(-1.6deg);
+}
+.shelf-item:nth-child(2) .shelf-note { transform: rotate(1.4deg); }
+.shelf-item:nth-child(3) .shelf-note { transform: rotate(-0.8deg); }
+
+.shelf-space { width: calc(var(--cover-h) * 0.5); animation: none; }
+.shelf-gap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--cover-h);
+}
+.shelf-note--plain {
+  background: none;
+  box-shadow: none;
+  color: var(--muted);
+  transform: rotate(-1deg);
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 0.98rem;
+}
+
+@keyframes settle {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Book sections ---------- */
+.book {
+  width: var(--page);
+  margin: 0 auto;
+  padding: clamp(72px, 10vw, 128px) 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(32px, 7vw, 96px);
+  align-items: start;
+  scroll-margin-top: 16px;
+}
+.book--flip .book-cover-col { order: 2; }
+
+.book-cover-col { justify-self: center; width: 100%; max-width: 340px; }
+.book-cover {
+  width: 100%;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(47, 39, 33, 0.15),
+    0 26px 44px -22px rgba(47, 39, 33, 0.55);
+}
+
+.book-text { max-width: 33em; padding-top: 8px; }
+.book-kind { color: var(--muted); font-size: 0.95rem; }
+.book-text h2 {
+  margin-top: 10px;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.12;
+}
+.book-blurb { margin-top: 22px; font-size: 1.12rem; }
+.book-facts { margin-top: 16px; color: var(--muted); font-size: 0.95rem; }
+
+.book-actions {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 26px;
+}
+.button {
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 6px;
+  background: var(--moss);
+  color: #f5f1e6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+.button:hover { background: var(--moss-dark); color: #f5f1e6; }
+.button--quiet {
+  background: transparent;
+  color: var(--moss-dark);
+  box-shadow: inset 0 0 0 1.5px var(--moss);
+}
+.button--quiet:hover { background: var(--moss); color: #f5f1e6; }
+
+.link-button {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+.link-button:hover { color: var(--moss); }
+
+.book-stores { margin-top: 18px; font-size: 0.92rem; color: var(--muted); }
+.book-next { margin-top: 30px; font-size: 0.95rem; font-style: italic; color: var(--muted); }
+
+/* Language switch under the Echoing Village cover */
+.langs { margin-top: 22px; text-align: center; }
+.langs-list { display: flex; justify-content: center; gap: 4px; }
+.langs-list button {
+  border: 0;
+  background: none;
+  padding: 4px 8px;
+  font: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 1.5px solid transparent;
+}
+.langs-list button:hover { color: var(--ink); }
+.langs-list button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--moss); }
+.langs-title { margin-top: 6px; font-size: 0.92rem; font-style: italic; color: var(--muted); }
+
+/* ---------- The 30-second case (folded away) ---------- */
+.case { margin-top: 40px; border-top: 1px solid var(--line); }
+.case summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.case summary::-webkit-details-marker { display: none; }
+.case summary::after { content: "+"; color: var(--muted); font-size: 1.25rem; line-height: 1.2; }
+.case[open] summary::after { content: "−"; }
+.case summary:hover { color: var(--moss); }
+
+.case-body { padding-bottom: 8px; }
+.case-intro { color: var(--muted); font-size: 0.95rem; }
+.case-clues { margin: 14px 0 18px; padding-left: 1.3em; }
+.case-clues li { margin: 4px 0; }
+.case-names { list-style: none; margin: 0 0 14px; padding: 0; }
+.case-names button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  padding: 11px 2px;
+  border: 0;
+  border-bottom: 1px dashed var(--line);
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+.case-detail { color: var(--muted); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.case-names button[aria-pressed="true"] .case-name {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--wood);
+  color: var(--muted);
+}
+.case-answer { margin-top: 6px; font-style: italic; }
+
+/* ---------- About ---------- */
+.about {
+  width: min(640px, 100% - 32px);
+  margin: 0 auto;
+  padding: clamp(72px, 10vw, 120px) 0 clamp(80px, 10vw, 128px);
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.about h2 { font-size: clamp(1.6rem, 3vw, 2rem); margin-bottom: 20px; }
+.about p + p { margin-top: 14px; }
+.about p { color: var(--ink); }
+.social:empty { display: none; }
+
+/* ---------- Footer ---------- */
+.foot {
+  width: var(--page);
+  margin: 0 auto;
+  padding: 26px 0 36px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.88rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Look inside viewer ---------- */
+.viewer {
+  width: min(1000px, 100% - 24px);
+  max-height: calc(100vh - 24px);
+  padding: 20px 20px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.viewer::backdrop { background: rgba(38, 29, 22, 0.72); }
+.viewer figure { margin: 0; }
+.viewer img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  background: var(--paper-deep);
+  border-radius: 3px;
+}
+.viewer figcaption {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.98rem;
+}
+.viewer-count { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.viewer-close {
+  display: block;
+  margin: 0 0 12px auto;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+.viewer-nav { margin-top: 14px; display: flex; justify-content: space-between; }
+.viewer-nav button {
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.viewer-nav button:hover { color: var(--moss); }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 760px) {
+  .book { grid-template-columns: 1fr; gap: 36px; }
+  .book--flip .book-cover-col { order: 0; }
+  .book-cover-col { max-width: 250px; }
+  .book-text { padding-top: 0; }
+}
+
+@media (max-width: 480px) {
+  .top nav { gap: 18px; }
+  .shelf-space { display: none; }
+  /* three covers side by side must fit the phone width */
+  .hello { --cover-h: calc((100vw - 32px - 24px) / 2.15); }
+  .shelf { padding: 0; }
+  .shelf-row { gap: 12px; }
+  .plank { left: -8px; right: -8px; }
+  .shelf-note { margin-top: 28px; font-size: 0.82rem; max-width: 8em; padding: 7px 8px 5px; }
+  .viewer figcaption { flex-direction: column; gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .shelf-item { animation: none; }
+  .shelf-cover, .button { transition: none; }
+}

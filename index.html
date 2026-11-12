@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MoBookShelf — books by Mohamad Ismail</title>
+  <meta name="description" content="Books by Mohamad Ismail: a murder-mystery puzzle book and Rowan &amp; Kit Adventures, a spooky illustrated series for readers aged 8 to 12. Books 1 and 2 are available on Amazon.">
+  <meta property="og:title" content="MoBookShelf — books by Mohamad Ismail">
+  <meta property="og:description" content="A murder to solve with a pencil, and two spooky Rowan &amp; Kit Adventures: The Echoing Village and The Whispering Orchard. Available on Amazon.">
+  <meta property="og:image" content="assets/books/midnight/cover.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='7' y='6' width='6' height='19' rx='1' fill='%2356603F'/%3E%3Crect x='14' y='9' width='5' height='16' rx='1' fill='%236A4B35'/%3E%3Crect x='20' y='7' width='5' height='18' rx='1' fill='%23A48A6A'/%3E%3Crect x='4' y='25' width='24' height='3' rx='1' fill='%234F3726'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..650;1,7..72,400&family=Kalam:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#books">Skip to the books</a>
+
+  <header class="top">
+    <a class="wordmark" href="#">MoBookShelf</a>
+    <nav aria-label="Main">
+      <a href="#books">Books</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hello">
+      <h1>Hello, and welcome<br>to my shelf.</h1>
+      <p class="lead">I'm Mohamad Ismail. I write books you read with a pencil in hand, or by lamplight. There are three on the shelf so far.</p>
+      <p class="lead">Rowan &amp; Kit Adventures is now a series. Start with <a href="#echoing-village">The Echoing Village</a>, then follow the brothers into <a href="#whispering-orchard">The Whispering Orchard</a>. Both are available on Amazon.</p>
+
+      <div class="shelf" id="shelf" aria-label="The bookshelf">
+        <!-- covers and notes are added by app.js from books.js -->
+      </div>
+    </section>
+
+    <div id="books"></div>
+
+    <section class="about" id="about">
+      <h2>About Mo</h2>
+      <p id="about-text"></p>
+      <p>Questions, or want to know when a new book is out? Write to me at <a id="email-link" href="mailto:mo.issmail@gmail.com">mo.issmail@gmail.com</a>.</p>
+      <p class="social" id="social"></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>MoBookShelf.com</span>
+    <span>© <span id="year">2026</span> Mohamad Ismail</span>
+  </footer>
+
+  <dialog class="viewer" id="viewer" aria-label="Look inside">
+    <button class="viewer-close" type="button" data-close aria-label="Close">Close</button>
+    <figure>
+      <img id="viewer-img" alt="">
+      <figcaption>
+        <span id="viewer-caption"></span>
+        <span class="viewer-count" id="viewer-count"></span>
+      </figcaption>
+    </figure>
+    <div class="viewer-nav">
+      <button type="button" id="viewer-prev">← Previous</button>
+      <button type="button" id="viewer-next" autofocus>Next →</button>
+    </div>
+  </dialog>
+
+  <script src="books.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
