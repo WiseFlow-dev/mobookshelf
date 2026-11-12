@@ -277,6 +277,16 @@ a.shelf-item:hover { color: var(--ink); }
 .link-button:hover { color: var(--moss); }
 
 .book-stores { margin-top: 18px; font-size: 0.92rem; color: var(--muted); }
+.book-stores select {
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid rgba(47, 39, 33, 0.25);
+  border-radius: 6px;
+  padding: 5px 8px;
+  margin-top: 4px;
+  max-width: 100%;
+}
 .book-next { margin-top: 30px; font-size: 0.95rem; font-style: italic; color: var(--muted); }
 
 /* Language switch under the Echoing Village cover */
