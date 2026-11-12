@@ -172,27 +172,6 @@
     }
     text.appendChild(actions);
 
-    if (isAvailable(book) && book.asin) {
-      var selectId = book.id + "-store";
-      var select = el("select", { id: selectId, "aria-label": "Choose your Amazon store for " + book.title }, [
-        el("option", { value: "", text: "Choose your country" })
-      ]);
-      Object.keys(AMZ.stores).forEach(function (code) {
-        select.appendChild(el("option", { value: code, text: AMZ.stores[code].label }));
-      });
-      select.addEventListener("change", function () {
-        var code = select.value;
-        if (code) window.open(storeUrl(book, code), "_blank", "noopener");
-        select.value = "";
-      });
-      text.appendChild(
-        el("p", { class: "book-stores" }, [
-          el("label", { for: selectId, text: "Not in " + AMZ.stores[COUNTRY].label + "? " }),
-          select
-        ])
-      );
-    }
-
     if (book.nextInSeries && book.nextInSeries.length) {
       text.appendChild(
         el("p", {
